@@ -39,7 +39,8 @@ string DoCellRoom(bool doRoomDescription = true);
 bool Ending = false;
 string currentRoom;
 vector<string> Inventory;
-bool CellHasKey = true;
+bool FoundCellKey = false;
+bool CellUnlocked = false;
 
 
 /*vector<Command> Commands =
@@ -82,13 +83,12 @@ int main()
 
 void PrintIntro()
 {
-	cout << "You have woken up in an old, mossy cell within a dark dungeon. You have no idea how you got here, and there is nobody else in sight.\n\n";
+	cout << "You have woken up in an old, mossy cell within a dark dungeon. You have no idea how you got here, and there is nobody else in sight. The iron bars in your cell seem to be locked with a key.\n\n";
 	cout << "Type \"HELP\" at anytime to see a list of commands you can use\n\n";
 }
 
 string DoCellRoom(bool doRoomDescription)
 {
-	system("cls");
 	if (doRoomDescription)
 	{
 		cout << "You are now back in the cell you have woken up in\n\n";
@@ -96,9 +96,56 @@ string DoCellRoom(bool doRoomDescription)
 	vector<string> commandInput;
 	while (GetCommand(commandInput))
 	{
-		if (true)
+		if (commandInput[0] == "INSPECT")
 		{
-
+			if (!FoundCellKey)
+			{
+				cout << "After looking around the room for a while, you find a small key underneath some moss nearby the bars.\n";
+				cout << "A key has been added to your inventory\n";
+				FoundCellKey = true;
+				Inventory.push_back("Small Key");
+			}
+			else
+			{
+				cout << "After looking around, you don't find anything useful.\n";
+			}
+		}
+		else if (commandInput[0] == "GO")
+		{
+			if (commandInput.size() == 1)
+			{
+				cout << "Where do you want to go?\n";
+				cout << "Valid optiosn:\n";
+				cout << "OUT : Leave the cell and out into the hallway\n";
+			}
+			else if (commandInput[1] == "OUT")
+			{
+				if (!CellUnlocked)
+				{
+					auto index = find(Inventory.begin(), Inventory.end(), "Small Key");
+					if (index < Inventory.end())
+					{
+						Inventory.erase(index);
+						CellUnlocked = true;
+						cout << "You unlocked your cell using the small key that you found.\n";
+						cout << "You are now in a hallway just outside of your cell. You can either go to the left or to the right.\n";
+						return "Hallway";
+					}
+					else
+					{
+						cout << "You aren't able to leave the cell. The cell is locked. You might need to find a key.\n";
+					}
+				}
+				else
+				{
+					cout << "You are now in a hallway just outside of your cell. You can either go to the left or to the right.\n";
+					return "Hallway";
+				}
+			}
+		}
+		else
+		{
+			cout << "Unrecognized command. Type \"HELP\" for a list of valid commands\n";
 		}
 	}
 	return "";
@@ -107,14 +154,14 @@ string DoCellRoom(bool doRoomDescription)
 void ResetGame()
 {
 	Ending = false;
-	CellHasKey = true;
+	FoundCellKey = false;
 	currentRoom = "Cell";
 	Inventory.clear();
 }
 
 bool GetCommand(vector<string>& commandResult)
 {
-	cout << '\n';
+	cout << "\n/>";
 	string input;
 	getline(cin, input);
 
@@ -139,8 +186,8 @@ bool GetCommand(vector<string>& commandResult)
 		cout << "QUIT : Exits out of the game\n";
 		cout << "INVENTORY : Shows what you have in your inventory\n";
 		cout << "INSPECT : Inspects the current room that you are in. It may help you find something useful\n";
-		cout << "GO : Go to a different room or area\n";
-		return true;
+		cout << "GO : Go or attempt to go to a different room or area\n";
+		return GetCommand(commandResult);
 	}
 	else if (commandResult[0] == "INVENTORY")
 	{
@@ -156,7 +203,8 @@ bool GetCommand(vector<string>& commandResult)
 				cout << item << '\n';
 			}
 		}
-		return true;
+		return GetCommand(commandResult);
+		//return true;
 	}
 	else
 	{
