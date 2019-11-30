@@ -10,10 +10,10 @@
 #include <iostream>
 //Gains access to the std::vector class
 #include <vector> 
-//Gains access to the time() commands
+//Gains access to the time() function
 #include <ctime> 
 
-#define WIN32_LEAN_AND_MEAN //This is used to prevent importing extra features we don't need
+#define WIN32_LEAN_AND_MEAN //This is used to prevent importing extra windows features we don't need
 #include <Windows.h> //Used to gain access to changing the color of the console
 
 using namespace std; //Prevents me from having to type in "std::" all over the place
