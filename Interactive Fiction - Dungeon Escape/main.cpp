@@ -680,7 +680,7 @@ Room DoOfficeRoom()
 				SetColor(Color::Black, Color::LightBlue);
 				//Tell how the player found the note
 				cout << "You begin searching the room. In one corner of the room, you find some shelves with lots of papers on it. You pick some of them out, but their writing has been destroyed by moisture, so you leave it.\n";
-				cout << "In the opposite corner, you see a chair, desk, and a computer system on top of it. You try powering it on, but doesn't seem to work, even though it's plugged in.\n";
+				cout << "In the opposite corner, you see a chair, desk, and a computer system on top of it. You try powering it on, but it does not seem to work, even though it is plugged in.\n";
 				cout << "You open one of the drawers inside the desk and you see a small note.\n";
 				cout << "It has a four digit code on it:\n";
 				cout << "\"" << doorCode << "\"\n";
@@ -747,7 +747,7 @@ void ResetGame()
 	FoundCellKey = false; //Reset the whether the cell key has been found
 	currentRoom = Room::Cell; //Set the current room to the cell
 	previousRoom = Room::Cell; //Set the previous room to the cell
-	doorCode = rand() % 10000; //Set the door code to a random number between 0000 and 9999
+	doorCode = (rand() % 9000) + 1000; //Set the door code to a random number between 0000 and 9999
 	largeDoorUnlocked = false; //Reset whether the large door is unlocked or not
 	foundNote = false; //Reset whether the not has been found or not
 	Inventory.clear(); //Clear the player's inventory
