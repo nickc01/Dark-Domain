@@ -1,11 +1,36 @@
 #include "gameFunctions.h"
-#include "gameVariables.h"
 #include <iostream>
 
 #define WIN32_LEAN_AND_MEAN //This is used to prevent importing extra windows features we don't need
 #include <Windows.h> //Used to gain access to changing the color of the console
 
 using namespace std;
+
+//--Variables--
+
+//The current room that the player is in
+Room currentRoom;
+
+//The previous room that the player was in
+Room previousRoom;
+
+//The player's inventory
+std::vector<std::string> Inventory;
+
+//Whether the cell key has been found or not
+bool FoundCellKey = false;
+
+//Whether the cell is unlocked or not
+bool CellUnlocked = false;
+
+//The code for the large door. This is needed in order to escape
+int doorCode = 1234;
+
+//Whether the large door is unlocked or not
+bool largeDoorUnlocked = false;
+
+//Whether the code note in the office has been found or not
+bool foundNote = false;
 
 //Prints the introduction of the cell room the player spawns in
 void CellIntro()
@@ -510,7 +535,6 @@ Room DoOfficeRoom()
 //Resets the game to its base state
 void ResetGame()
 {
-	GameOver = false; //Reset whether the game is over or not
 	FoundCellKey = false; //Reset the whether the cell key has been found
 	currentRoom = Room::Cell; //Set the current room to the cell
 	previousRoom = Room::Cell; //Set the previous room to the cell
@@ -765,4 +789,20 @@ void InvalidCommand(string output)
 	cout << output;
 	//Set the color back to normal
 	SetColor(Color::Black, Color::BrightWhite);
+}
+
+Room GetCurrentRoom()
+{
+	return currentRoom;
+}
+
+void SetCurrentRoom(Room nextRoom)
+{
+	previousRoom = currentRoom;
+	currentRoom = nextRoom;
+}
+
+Room GetPreviousRoom()
+{
+	return previousRoom;
 }

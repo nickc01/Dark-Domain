@@ -8,17 +8,17 @@
 #include <string> 
 //Gains access to std::cout and std::cin
 #include <iostream>
-//Gains access to the std::vector class
-//#include <vector> 
 //Gains access to the time() function                   
 #include <ctime>
 
 #include "gameEnums.h"
 #include "gameFunctions.h"
-#include "gameVariables.h"
 
 using namespace std; //Prevents me from having to type in "std::" all over the place
 
+
+//Whether the game is over or not
+bool GameOver = false;
 
 
 int main()
@@ -53,13 +53,10 @@ int main()
 		//Repeat until the room is set to None
 		while (true)
 		{
-			//Set the previous room to the current room
-			previousRoom = currentRoom;
-
 			//Set the current room to the next room the player is going into
-			currentRoom = nextRoom;
+			SetCurrentRoom(nextRoom);
 			//Pick the cell logic depending on the current room the player is in
-			switch (currentRoom)
+			switch (nextRoom)
 			{
 			case Room::Cell: //If the current room is the cell
 				nextRoom = DoCellRoom(); //Do the cell room logic

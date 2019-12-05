@@ -36,6 +36,11 @@ bool TryConvertToNumber(std::string inputString, int& output);
 void InvalidCommand(std::string output = "Unrecognized command. Type \"HELP\" for a list of valid commands\n");
 
 
+Room GetCurrentRoom();
+void SetCurrentRoom(Room nextRoom);
+
+Room GetPreviousRoom();
+
 //--Room Functions--
 
 //Does the main logic for the cell room
