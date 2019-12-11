@@ -145,10 +145,16 @@
   <ItemGroup>
     <ClCompile Include="gameFunctions.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Rooms\Base\Room.cpp" />
+    <ClCompile Include="Rooms\CellRoom.cpp" />
+    <ClCompile Include="Rooms\GameVariables.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameEnums.h" />
     <ClInclude Include="gameFunctions.h" />
+    <ClInclude Include="Rooms\Base\Room.h" />
+    <ClInclude Include="Rooms\CellRoom.h" />
+    <ClInclude Include="Rooms\GameVariables.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
