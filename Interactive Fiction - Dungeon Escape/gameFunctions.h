@@ -8,7 +8,7 @@
 //--Functions--
 
 //Resets the game to its base state
-void ResetGame();
+//void ResetGame();
 
 //Gets a command from the player to execute. Returns false if the "QUIT" command has been entered, and returns true for any other command
 bool GetCommand(std::vector<std::string>& commandInput);
@@ -36,24 +36,24 @@ bool TryConvertToNumber(std::string inputString, int& output);
 void InvalidCommand(std::string output = "Unrecognized command. Type \"HELP\" for a list of valid commands\n");
 
 
-Room GetCurrentRoom();
-void SetCurrentRoom(Room nextRoom);
+/*RoomEnum GetCurrentRoom();
+void SetCurrentRoom(RoomEnum nextRoom);
 
-Room GetPreviousRoom();
+RoomEnum GetPreviousRoom();
 
-//--Room Functions--
+//--RoomEnum Functions--
 
 //Does the main logic for the cell room
-Room DoCellRoom();
+RoomEnum DoCellRoom();
 
 //Does the main logic for the hallway
-Room DoHallway();
+RoomEnum DoHallway();
 
 //Does the main logic for the large door
-Room DoLargeDoor();
+RoomEnum DoLargeDoor();
 
 //Does the main logic for the office room
-Room DoOfficeRoom();
+RoomEnum DoOfficeRoom();
 
 //Prints the introduction of the cell room the player spawns in
 void CellIntro();
@@ -65,4 +65,4 @@ void HallwayIntro();
 void LargeDoorIntro();
 
 //Prints the introduction for the office
-void OfficeIntro();
+void OfficeIntro();*/

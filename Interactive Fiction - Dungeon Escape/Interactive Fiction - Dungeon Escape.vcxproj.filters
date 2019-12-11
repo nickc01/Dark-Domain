@@ -27,7 +27,19 @@
     <ClCompile Include="Rooms\CellRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rooms\GameVariables.cpp">
+    <ClCompile Include="GameVariables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rooms\HallwayRoom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rooms\LargeDoorRoom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rooms\OfficeRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,13 +50,25 @@
     <ClInclude Include="gameEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rooms\GameVariables.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Rooms\Base\Room.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rooms\CellRoom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameVariables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rooms\HallwayRoom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rooms\LargeDoorRoom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rooms\OfficeRoom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

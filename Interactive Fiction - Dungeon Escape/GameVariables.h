@@ -9,6 +9,12 @@ namespace Variables
 	//Whether the cell is unlocked or not
 	extern bool CellUnlocked;
 
+	extern bool largeDoorUnlocked;
+
+	extern int doorCode;
+
+	extern bool foundNote;
+
 
 	void Reset();
 }

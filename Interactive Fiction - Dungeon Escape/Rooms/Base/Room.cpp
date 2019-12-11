@@ -2,6 +2,7 @@
 #include <exception>
 #include <iostream>
 #include "../../gameFunctions.h"
+#include "../CellRoom.h"
 
 using namespace std;
 
@@ -35,6 +36,11 @@ Room* CurrentRoom = nullptr;
 	}
 };*/
 
+void Room::Quit()
+{
+	Quitting = true;
+}
+
 const Room* Room::GetPreviousRoom()
 {
 	return PreviousRoom;
@@ -50,6 +56,7 @@ void Room::Reset()
 	CurrentRoom = nullptr;
 	PreviousRoom = nullptr;
 	NextRoom = nullptr;
+	GoToRoom<CellRoom>();
 }
 
 Room* Room::PopNextRoom()
@@ -105,12 +112,19 @@ bool Room::ExecuteNextRoom()
 		{
 			CurrentRoom->OnCommand(command, commandInput);
 		}
-		if (NextRoom != nullptr)
+
+		if (NextRoom != nullptr || CurrentRoom->Quitting)
 		{
 			break;
 		}
 	}
 	CurrentRoom->OnFinish();
+	return !CurrentRoom->Quitting;
+}
+
+void Room::OnStart()
+{
+
 }
 
 void Room::Recap()
@@ -122,4 +136,9 @@ void Room::Inspect()
 {
 	//Tell the player that they did not find anything useful
 	std::cout << "After looking around, you don't find anything useful.\n";
+}
+
+void Room::OnFinish()
+{
+
 }

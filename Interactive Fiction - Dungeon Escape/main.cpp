@@ -13,6 +13,8 @@
 
 #include "gameEnums.h"
 #include "gameFunctions.h"
+#include "Rooms/Base/Room.h"
+#include "GameVariables.h"
 
 using namespace std; //Prevents me from having to type in "std::" all over the place
 
@@ -41,8 +43,16 @@ int main()
 	//Clear the screen
 	system("cls");
 
+	Variables::Reset();
+	Room::Reset();
+
+	while (Room::ExecuteNextRoom())
+	{
+
+	}
+
 	//The main game loop. Repeats until it's gameOver is set to false
-	do
+	/*do
 	{
 		//Reset the game's main variables
 		ResetGame();
@@ -114,5 +124,5 @@ int main()
 			}
 		}
 
-	} while (!GameOver);
+	} while (!GameOver);*/
 }

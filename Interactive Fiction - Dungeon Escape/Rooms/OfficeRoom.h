@@ -3,7 +3,7 @@
 #include "Base/Room.h"
 
 
-class CellRoom : public Room
+class OfficeRoom : public Room
 {
 	void OnStart() override;
 

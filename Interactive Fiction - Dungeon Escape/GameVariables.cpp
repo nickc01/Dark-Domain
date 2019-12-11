@@ -10,10 +10,19 @@ namespace Variables
 	//Whether the cell is unlocked or not
 	bool CellUnlocked = false;
 
+	int doorCode = 0;
+
+	bool largeDoorUnlocked = false;
+
+	bool foundNote = false;
+
 
 	void Reset()
 	{
 		FoundCellKey = false;
 		CellUnlocked = false;
+		largeDoorUnlocked = false;
+		foundNote = false;
+		doorCode = 0;
 	}
 }

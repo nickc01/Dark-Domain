@@ -4,42 +4,44 @@
 #define WIN32_LEAN_AND_MEAN //This is used to prevent importing extra windows features we don't need
 #include <Windows.h> //Used to gain access to changing the color of the console
 
+#include "Inventory.h"
+
 using namespace std;
 
 //--Variables--
 
 //The current room that the player is in
-Room currentRoom;
+//RoomEnum currentRoom;
 
 //The previous room that the player was in
-Room previousRoom;
+//RoomEnum previousRoom;
 
 //The player's inventory
-std::vector<std::string> Inventory;
+//std::vector<std::string> Inventory;
 
 //Whether the cell key has been found or not
-bool FoundCellKey = false;
+//bool FoundCellKey = false;
 
 //Whether the cell is unlocked or not
-bool CellUnlocked = false;
+//bool CellUnlocked = false;
 
 //The code for the large door. This is needed in order to escape
-int doorCode = 1234;
+//int doorCode = 1234;
 
 //Whether the large door is unlocked or not
-bool largeDoorUnlocked = false;
+//bool largeDoorUnlocked = false;
 
 //Whether the code note in the office has been found or not
-bool foundNote = false;
+//bool foundNote = false;
 
 //Prints the introduction of the cell room the player spawns in
-void CellIntro()
+/*void CellIntro()
 {
 	//Set the text color to blue
 	SetColor(Color::Black, Color::LightBlue);
 
 	//If the previous room and the current room are set to the cell. This is only true if the game has just started up
-	if (!(previousRoom == Room::Cell && currentRoom == Room::Cell))
+	if (!(previousRoom == RoomEnum::Cell && currentRoom == RoomEnum::Cell))
 	{
 		//Clear the screen
 		system("cls");
@@ -60,7 +62,7 @@ void CellIntro()
 		cout << "The iron bars in your cell seem to be locked with a key\n";
 	}
 	//If the previous room and the current room are set to the cell. This is only true if the game has just started up
-	if (previousRoom == Room::Cell && currentRoom == Room::Cell)
+	if (previousRoom == RoomEnum::Cell && currentRoom == RoomEnum::Cell)
 	{
 		//Tell the player that they can type "HELP" to get a list of commands used to navigate
 		cout << "Type \"HELP\" at anytime to see a list of commands you can use\n";
@@ -71,7 +73,7 @@ void CellIntro()
 
 
 //Does the main logic for the cell room
-Room DoCellRoom()
+RoomEnum DoCellRoom()
 {
 	//Print the cell intro
 	CellIntro();
@@ -99,7 +101,8 @@ Room DoCellRoom()
 				//Specify that the key has been found
 				FoundCellKey = true;
 				//Add the key to the inventory
-				Inventory.push_back("Small Key");
+				//Inventory.push_back("Small Key");
+				Inventory::AddItem("Small Key");
 			}
 			//If the key has been found
 			else
@@ -126,9 +129,10 @@ Room DoCellRoom()
 				if (!CellUnlocked)
 				{
 					//Find the key in the player's inventory
-					auto index = find(Inventory.begin(), Inventory.end(), "Small Key");
+					//auto index = find(Inventory.begin(), Inventory.end(), "Small Key");
 					//If it has been found
-					if (index < Inventory.end())
+					//if (index < Inventory.end())
+					if (Inventory::HasItem("Small Key"))
 					{
 						//Unlock the cell
 						CellUnlocked = true;
@@ -141,7 +145,7 @@ Room DoCellRoom()
 						//Set the text color back to normal
 						SetColor(Color::Black, Color::BrightWhite);
 						//Go to the hallway room
-						return Room::Hallway;
+						return RoomEnum::Hallway;
 					}
 					//If the key has not been found in the inventory
 					else
@@ -156,7 +160,7 @@ Room DoCellRoom()
 					//Clear the screen
 					system("cls");
 					//Go to the hallway room
-					return Room::Hallway;
+					return RoomEnum::Hallway;
 				}
 			}
 			//If an invalid argument has been passed
@@ -180,7 +184,7 @@ Room DoCellRoom()
 		}
 	}
 	//Return no room if the "QUIT" command has been entered. This signifies the end of the game
-	return Room::None;
+	return RoomEnum::None;
 }
 
 //Prints the introduction for the hallway
@@ -193,7 +197,7 @@ void HallwayIntro()
 	//Tell the player that they are now in the hallway
 	cout << "You are now in the hallway just outside of your cell. The hallway splits into two directions, left and right.\n\n";
 	//If the player originally came from the cell room
-	if (previousRoom != Room::Cell)
+	if (previousRoom != RoomEnum::Cell)
 	{
 		//The the player how to use the go command
 		cout << "Use the \"GO\" command to pick where you want to go";
@@ -203,7 +207,7 @@ void HallwayIntro()
 }
 
 //Does the main logic for the hallway
-Room DoHallway()
+RoomEnum DoHallway()
 {
 	//Print the hallway intro
 	HallwayIntro();
@@ -241,19 +245,19 @@ Room DoHallway()
 				if (commandInput[1] == "LEFT")
 				{
 					//Go to the large door room
-					return Room::LargeDoor;
+					return RoomEnum::LargeDoor;
 				}
 				//If the RIGHT argument has been entered
 				else if (commandInput[1] == "RIGHT")
 				{
 					//Go to the office room
-					return Room::Office;
+					return RoomEnum::Office;
 				}
 				//If the BACK argument has been entered
 				else if (commandInput[1] == "BACK")
 				{
-					//Go back to the Cell Room
-					return Room::Cell;
+					//Go back to the Cell RoomEnum
+					return RoomEnum::Cell;
 				}
 				//If an unrecognized argument has been entered
 				else
@@ -277,7 +281,7 @@ Room DoHallway()
 		}
 	}
 	//Return no room if the "QUIT" command has been entered. This signifies the end of the game
-	return Room::None;
+	return RoomEnum::None;
 }
 
 //Prints the introduction for the large door
@@ -297,7 +301,7 @@ void LargeDoorIntro()
 }
 
 //Does the main logic for the large door
-Room DoLargeDoor()
+RoomEnum DoLargeDoor()
 {
 	//Print the large door intro
 	LargeDoorIntro();
@@ -344,14 +348,14 @@ Room DoLargeDoor()
 						//Set the text color back to normal
 						SetColor(Color::Black, Color::BrightWhite);
 						//Set the room to None, signifying the end of the game
-						return Room::None;
+						return RoomEnum::None;
 					}
 				}
 				//If the BACK argument has been entered
 				else if (commandInput[1] == "BACK")
 				{
 					//Go back to the hallway room
-					return Room::Hallway;
+					return RoomEnum::Hallway;
 				}
 				//If no valid argument has been passed
 				else
@@ -434,7 +438,7 @@ Room DoLargeDoor()
 		}
 	}
 	//Return no room if the "QUIT" command has been entered. This signifies the end of the game
-	return Room::None;
+	return RoomEnum::None;
 }
 
 //Prints the intro for the office
@@ -451,7 +455,7 @@ void OfficeIntro()
 }
 
 //Does the main logic for the office room
-Room DoOfficeRoom()
+RoomEnum DoOfficeRoom()
 {
 	//Print the office intro
 	OfficeIntro();
@@ -478,7 +482,8 @@ Room DoOfficeRoom()
 				cout << "\"" << doorCode << "\"\n";
 				cout << "You put the note in your inventory\n";
 				//Add the note to the player's inventory
-				Inventory.push_back(string("Note with the code: ") + to_string(doorCode));
+				Inventory::AddItem(string("Note with the code: ") + to_string(doorCode));
+				//Inventory.push_back(string("Note with the code: ") + to_string(doorCode));
 				//Specify that the note has been found
 				foundNote = true;
 				//Set the text color back to normal
@@ -506,7 +511,7 @@ Room DoOfficeRoom()
 			else if (commandInput[1] == "OUT")
 			{
 				//Go to the hallway
-				return Room::Hallway;
+				return RoomEnum::Hallway;
 			}
 			//If no valid command has been entered
 			else
@@ -529,20 +534,22 @@ Room DoOfficeRoom()
 		}
 	}
 	//Return no room if the "QUIT" command has been entered. This signifies the end of the game
-	return Room::None;
-}
+	return RoomEnum::None;
+}*/
 
 //Resets the game to its base state
-void ResetGame()
-{
+//void ResetGame()
+//{
+	/*
 	FoundCellKey = false; //Reset the whether the cell key has been found
-	currentRoom = Room::Cell; //Set the current room to the cell
-	previousRoom = Room::Cell; //Set the previous room to the cell
+	//currentRoom = RoomEnum::Cell; //Set the current room to the cell
+	//previousRoom = RoomEnum::Cell; //Set the previous room to the cell
 	doorCode = (rand() % 9000) + 1000; //Set the door code to a random number between 0000 and 9999
 	largeDoorUnlocked = false; //Reset whether the large door is unlocked or not
 	foundNote = false; //Reset whether the not has been found or not
-	Inventory.clear(); //Clear the player's inventory
-}
+	Inventory::Clear(); //Clear the player's inventory
+	*/
+//}
 
 //Gets a command from the player to execute. Returns false if the "QUIT" command has been entered, and returns true for any other command
 bool GetCommand(vector<string>& commandResult)
@@ -588,7 +595,7 @@ bool GetCommand(vector<string>& commandResult)
 	else if (commandResult[0] == "INVENTORY" || commandResult[0] == "INV")
 	{
 		//If the inventory is empty
-		if (Inventory.size() == 0)
+		if (Inventory::Size() == 0)
 		{
 			//Tell the player that the inventory is empty
 			cout << "Your Inventory is empty\n";
@@ -598,7 +605,7 @@ bool GetCommand(vector<string>& commandResult)
 		{
 			//Print all the contents of the inventory. Loop over all the inventory's contents and print each one of them
 			cout << "Your Inventory:\n";
-			for (string& item : Inventory)
+			for (const string& item : Inventory::AllItems())
 			{
 				cout << item << '\n';
 			}
@@ -791,18 +798,18 @@ void InvalidCommand(string output)
 	SetColor(Color::Black, Color::BrightWhite);
 }
 
-Room GetCurrentRoom()
+/*RoomEnum GetCurrentRoom()
 {
 	return currentRoom;
 }
 
-void SetCurrentRoom(Room nextRoom)
+void SetCurrentRoom(RoomEnum nextRoom)
 {
 	previousRoom = currentRoom;
 	currentRoom = nextRoom;
 }
 
-Room GetPreviousRoom()
+RoomEnum GetPreviousRoom()
 {
 	return previousRoom;
-}
+}*/

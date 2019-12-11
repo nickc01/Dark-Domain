@@ -24,7 +24,7 @@ enum class Color
 
 
 //An enum representing the different rooms in the game
-enum class Room
+enum class RoomEnum
 {
 	None, //Represents no room at all. This is to signal the end of the game
 	Cell, //The cell room
