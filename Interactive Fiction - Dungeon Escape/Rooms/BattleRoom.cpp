@@ -77,7 +77,7 @@ void BattleRoom::Inspect()
 		system("pause");
 
 		//Create the battle scenario
-		Battle ZombieBattle = Battle(Variables::PlayerName, "Zombie");
+		Battle ZombieBattle = Battle(Variables::PlayerName, "The Zombie");
 
 		//Begin the battle
 		if (ZombieBattle.Play())

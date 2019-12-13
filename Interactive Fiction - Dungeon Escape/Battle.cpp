@@ -69,8 +69,8 @@ BattleAction Battle::GetAction()
 
 	//Tell the player the actions that they can take
 	cout << "Enter an action:\n";
-	cout << "ATTACK : Attempt to attack the " << enemyStats.Name << "\n";
-	cout << "DEFEND : Take a defensive stance against the " << enemyStats.Name << ". Will reduce damage taken\n";
+	cout << "ATTACK : Attempt to attack " << enemyStats.Name << "\n";
+	cout << "DEFEND : Take a defensive stance against " << enemyStats.Name << ". Will reduce damage taken\n";
 
 	//Repeat until the player has entered a valid option
 	while (true)
@@ -303,7 +303,7 @@ std::string Battle::Attack(Stats* sender,Stats* receiver)
 			outputMessage += "CRITICAL HIT!  ";
 		}
 		//Print the amount of damage delt to the opponent
-		outputMessage += sender->Name + " hit the " + receiver->Name + " with " + to_string(attackDamage) + " damage!\n\n";
+		outputMessage += sender->Name + " hit " + receiver->Name + " with " + to_string(attackDamage) + " damage!\n\n";
 		//Reduce the health of the opponent
 		receiver->Health -= attackDamage;
 		//If the health is less than zero, then set it back up to zero
