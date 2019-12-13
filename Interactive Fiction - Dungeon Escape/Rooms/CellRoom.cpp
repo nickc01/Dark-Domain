@@ -1,17 +1,15 @@
-#include "CellRoom.h"
-#include "../gameEnums.h"
-#include "../gameFunctions.h"
-#include <iostream>
-#include "../GameVariables.h"
-#include "../Inventory.h"
-#include "HallwayRoom.h"
+#include "CellRoom.h" //Used to gain access to the room definition for creating and executing rooms
+#include "../gameFunctions.h" //Used to gain access to command game functions
+#include <iostream> //Used to gain access to cout for printing to the console
+#include "../GameVariables.h" //Used to gain access to common game variables
+#include "../Inventory.h" //Used to gain access to viewing and modifying the inventory
+#include "HallwayRoom.h" //Used to gain access to the room definition for creating and executing rooms
 
-using namespace std;
+using namespace std; //Used to prevent me from having to type "std::cout" everywhere
 
+//Called when the room starts
 void CellRoom::OnStart()
 {
-	//Set the text color to blue
-	SetColor(Color::Black, Color::LightBlue);
 	//If the previous room and the current room are set to the cell. This is only true if the game has just started up
 	if (Room::GetPreviousRoom() != nullptr)
 	{
@@ -39,48 +37,31 @@ void CellRoom::OnStart()
 		//Tell the player that they can type "HELP" to get a list of commands used to navigate
 		cout << "Type \"HELP\" at anytime to see a list of commands you can use\n";
 	}
-	//Set the text color back to normal
-	SetColor(Color::Black, Color::BrightWhite);
 }
 
-
+//Called when a command is entered
 void CellRoom::OnCommand(std::string Command, std::vector<std::string> Arguments)
 {
+	//If the player has called the "GO" command
 	if (Command == "GO")
 	{
-		//If there are no arguments passed along with the command
-		if (Arguments.size() == 0)
-		{
-			//Ask the player where they want to go to, and list the valid options
-			cout << "Where do you want to go?\n";
-			cout << "Valid options:\n";
-			cout << "OUT : Leave the cell and out into the hallway\n";
-		}
-		//If the "OUT" argument has been specified
-		else if (Arguments[0] == "OUT")
+		//If the player want to go "OUT"
+		if (Room::GoCommandShortcut(Arguments, { {"OUT","Leave the cell and out into the hallway"} }) == 0)
 		{
 			//If the cell is locked
 			if (!Variables::CellUnlocked)
 			{
-				//Find the key in the player's inventory
-				//auto index = find(Inventory.begin(), Inventory.end(), "Small Key");
-				//If it has been found
-				//if (index < Inventory.end())
+				//If the player has a small key in their inventory
 				if (Inventory::HasItem("Small Key"))
 				{
 					//Unlock the cell
 					Variables::CellUnlocked = true;
 					//Clear the console
 					system("cls");
-					//Set the text color to blue
-					SetColor(Color::Black, Color::LightBlue);
 					//Tell the player that the cell has been unlocked
 					cout << "You unlocked your cell using the small key that you found.\n";
-					//Set the text color back to normal
-					SetColor(Color::Black, Color::BrightWhite);
 					//Go to the hallway room
 					GoToRoom<HallwayRoom>();
-					//return Room::Hallway;
 				}
 				//If the key has not been found in the inventory
 				else
@@ -99,13 +80,8 @@ void CellRoom::OnCommand(std::string Command, std::vector<std::string> Arguments
 				//return Room::Hallway;
 			}
 		}
-		//If an invalid argument has been passed
-		else
-		{
-			//Tell the player that an invalid argument has been passed
-			InvalidCommand("Unrecognized place to go\n");
-		}
 	}
+	//If an invalid command has been entered
 	else
 	{
 		//Tell the player that an invalid command has been entered
@@ -113,19 +89,14 @@ void CellRoom::OnCommand(std::string Command, std::vector<std::string> Arguments
 	}
 }
 
+//Called when the player inspects the room
 void CellRoom::Inspect()
 {
 	//If the cell key has not been found
 	if (!Variables::FoundCellKey)
 	{
-		//Set the text color to blue
-		SetColor(Color::Black, Color::LightBlue);
 		//Tell the player that they found a key
 		cout << "After looking around the room for a while, you find a small key underneath some moss nearby the bars.\n";
-		//Tell the player that the key has been added to their inventory
-		cout << "A key has been added to your inventory\n";
-		//Set the color back to normal
-		SetColor(Color::Black, Color::BrightWhite);
 		//Specify that the key has been found
 		Variables::FoundCellKey = true;
 		//Add the key to the inventory
@@ -140,6 +111,7 @@ void CellRoom::Inspect()
 	}
 }
 
+//Returns the name of the room
 std::string CellRoom::GetName() const
 {
 	return "Cell";

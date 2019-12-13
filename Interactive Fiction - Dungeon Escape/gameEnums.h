@@ -22,13 +22,10 @@ enum class Color
 	BrightWhite = 15
 };
 
-
-//An enum representing the different rooms in the game
-enum class RoomEnum
+//An enum representing where text should be drawn on the console
+enum class Anchor
 {
-	None, //Represents no room at all. This is to signal the end of the game
-	Cell, //The cell room
-	Hallway, //The hallway room
-	LargeDoor, //The large door room
-	Office //The office room
+	Left, //Print text on the left side of the screen
+	Middle, //Print text at the middle of the screen
+	Right //Print text on the right side of the screen
 };

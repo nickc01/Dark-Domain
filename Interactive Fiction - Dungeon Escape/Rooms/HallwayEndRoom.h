@@ -1,8 +1,8 @@
 #pragma once
 #include "Base/Room.h" //Used to gain access to the room definition for creating and executing rooms
 
-//The room for the hallway just outside the cell
-class HallwayRoom : public Room
+//The room at the end of the hallway
+class HallwayEndRoom : public Room
 {
 	//Called when the room starts
 	void OnStart() override;

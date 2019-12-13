@@ -143,23 +143,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Battle.cpp" />
     <ClCompile Include="gameFunctions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rooms\Base\Room.cpp" />
+    <ClCompile Include="Rooms\BattleRoom.cpp" />
     <ClCompile Include="Rooms\CellRoom.cpp" />
     <ClCompile Include="GameVariables.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Rooms\HallwayEndRoom.cpp" />
     <ClCompile Include="Rooms\HallwayRoom.cpp" />
     <ClCompile Include="Rooms\LargeDoorRoom.cpp" />
     <ClCompile Include="Rooms\OfficeRoom.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Battle.h" />
     <ClInclude Include="gameEnums.h" />
     <ClInclude Include="gameFunctions.h" />
     <ClInclude Include="Rooms\Base\Room.h" />
+    <ClInclude Include="Rooms\BattleRoom.h" />
     <ClInclude Include="Rooms\CellRoom.h" />
     <ClInclude Include="GameVariables.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Rooms\HallwayEndRoom.h" />
     <ClInclude Include="Rooms\HallwayRoom.h" />
     <ClInclude Include="Rooms\LargeDoorRoom.h" />
     <ClInclude Include="Rooms\OfficeRoom.h" />

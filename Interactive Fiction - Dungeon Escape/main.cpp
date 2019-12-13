@@ -1,22 +1,24 @@
 /*
 	Nicholas Cullen
-	11/29/19
+	12/13/19
 	Dungeon Escape: A small interactive story game where you need to escape an abandoned dungeon
 */
 
 //Gains access to the std::string class
-#include <string> 
+#include <string> //Used to gain access to "std::string" 
 //Gains access to std::cout and std::cin
-#include <iostream>
+#include <iostream> //Used to gain access to cout for printing to the console
 //Gains access to the time() function                   
-#include <ctime>
+#include <ctime> //Used to gain access to "srand" and "rand" for getting random numbers
 
-#include "gameEnums.h"
-#include "gameFunctions.h"
-#include "Rooms/Base/Room.h"
-#include "GameVariables.h"
+#include "gameEnums.h" //Used to gain access to common game enums, such as "Color", and "Anchor"
+#include "gameFunctions.h" //Used to gain access to common game functions
+#include "Rooms/Base/Room.h" //Used to gain access to the room definition for creating and executing rooms
+#include "GameVariables.h" //Used to gain access to common game variables
+#include "Battle.h" //Used to gain access to the battle class. Used to start battles
+#include "Inventory.h" //Used to access and modify the inventory
 
-using namespace std; //Prevents me from having to type in "std::" all over the place
+using namespace std; //Used to prevent me from having to type "std::cout" everywhere
 
 
 //Whether the game is over or not
@@ -27,69 +29,53 @@ int main()
 {
 	//Reset the seed of the randomizer
 	srand(time(0));
-
-	//Set the text color to green
-	SetColor(Color::Black, Color::LightGreen);
-
-	//Print the title
-	cout << "Welcome to Dungeon Escape!\n\n";
-
-	//Set the color back to normal
-	SetColor(Color::Black, Color::BrightWhite);
-
-	//Wait for the player to press any key
-	system("pause");
-
-	//Clear the screen
-	system("cls");
-
-	Variables::Reset();
-	Room::Reset();
-
-	while (Room::ExecuteNextRoom())
+	do
 	{
+		//Reset the game variables
+		Variables::Reset();
+		//Reset the player's inventroy
+		Inventory::Clear();
+		//Reset the rooms
+		Room::Reset();
 
-	}
+		//Set the text color to green
+		SetColor(Color::Black, Color::LightGreen);
 
-	//The main game loop. Repeats until it's gameOver is set to false
-	/*do
-	{
-		//Reset the game's main variables
-		ResetGame();
+		//Print the title
+		cout << "Welcome to Dungeon Escape!\n\n";
 
-		//Start the player in the cell room and wait for them to go to the next room
-		Room nextRoom = DoCellRoom();
+		//Set the color back to normal
+		SetColor(Color::Black, Color::BrightWhite);
 
-		//Repeat until the room is set to None
-		while (true)
-		{
-			//Set the current room to the next room the player is going into
-			SetCurrentRoom(nextRoom);
-			//Pick the cell logic depending on the current room the player is in
-			switch (nextRoom)
-			{
-			case Room::Cell: //If the current room is the cell
-				nextRoom = DoCellRoom(); //Do the cell room logic
-				continue; //Go back to the top of the loop
+		//Wait for the player to press any key
+		system("pause");
 
-			case Room::Hallway: //If the current room is the hallway
-				nextRoom = DoHallway(); //Do the hallway logic
-				continue; //Go back to the top of the loop
+		//Ask for the player's name
+		string name = GetString(false, "Please Enter your Name:\n/>");
+		
+		//Store the player's name
+		Variables::PlayerName = name;
 
-			case Room::LargeDoor: //If the current room is the large door room
-				nextRoom = DoLargeDoor(); //Do the large door room logic
-				continue; //Go back to the top of the loop
+		//Clear the screen
+		system("cls");
 
-			case Room::Office: //If the current room is the office
-				nextRoom = DoOfficeRoom(); //Do the office room logic
-				continue; //Go back to the top of the loop
+		//Greet the player and tell them what they need to do
+		cout << "Hello " << name << ", welcome to dungeon escape!\n";
+		cout << "Your goal is to figure out a way to escape the abandoned dungeon without getting killed.\n";
+		cout << "Navigate through rooms and solve the puzzle!\n";
+		
+		//Wait for player input
+		system("pause");
 
-			case Room::None: //If the room is set to none
-				break; //Break out of the switch statement
+		//Reset the game over flag
+		GameOver = false;
 
-			}
-			break; //Break out of the loop, signifying that the game is done. This is only reached if the Room is set to None
-		}
+		//Clear the screen
+		system("cls");
+
+		//Keep running through each of the rooms until there is no more rooms to go through
+		while (Room::ExecuteNextRoom()) {}
+
 		//Print the ending message
 		cout << "\nThanks for playing!\n";
 
@@ -123,6 +109,5 @@ int main()
 				InvalidCommand("Invalid option, try again\n");
 			}
 		}
-
-	} while (!GameOver);*/
+	} while (!GameOver);
 }

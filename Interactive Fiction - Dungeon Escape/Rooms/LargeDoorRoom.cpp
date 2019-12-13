@@ -1,11 +1,11 @@
-#include "LargeDoorRoom.h"
-#include "../gameEnums.h"
-#include "../gameFunctions.h"
-#include "../GameVariables.h"
-#include <iostream>
-#include "HallwayRoom.h"
+#include "LargeDoorRoom.h" //Used to gain access to the room definition for creating and executing rooms
+#include "../gameEnums.h" //Used to gain access to common game enums
+#include "../gameFunctions.h" //Used to gain access to common game functions
+#include "../GameVariables.h" //Used to gain access to common game variables
+#include <iostream> //Used to gain access to cout for printing to the console
+#include "HallwayRoom.h" //Used to gain access to the room definition for creating and executing rooms
 
-using namespace std;
+using namespace std; //Used to prevent me from having to type "std::cout" everywhere
 
 void LargeDoorRoom::OnStart()
 {
@@ -24,52 +24,40 @@ void LargeDoorRoom::OnStart()
 
 void LargeDoorRoom::OnCommand(std::string Command, std::vector<std::string> Arguments)
 {
+	//If the "GO" command was entered
 	if (Command == "GO")
 	{
-		//If no other arguments have been passed alongside the command
-		if (Arguments.size() == 0)
+		//Call the go command shortcut and see which room the player wants to go in
+		switch (GoCommandShortcut(Arguments, { {"OUT","Go out the large door and escape."},{"BACK","Go back through the hallway just outside of your cell"} }))
 		{
-			//Ask the player where they want to go and present them their options
-			cout << "Where do you want to go?\n";
-			cout << "Valid options:\n";
-			cout << "OUT : Go out the large door and escape.\n";
-			cout << "BACK : Go back through the hallway just outside your cell.\n";
-		}
-		//If an argument has been entered alongside the command
-		else
-		{
-			//If the OUT argument has been entered
-			if (Arguments[0] == "OUT")
+			//If the player wants to go "OUT"
+		case 0:
+			//if the door is unlocked
+			if (Variables::largeDoorUnlocked)
 			{
-				//If the door has been unlocked
-				if (Variables::largeDoorUnlocked)
-				{
-					//Clear the screen
-					system("cls");
-					//Set the text color to yellow
-					SetColor(Color::Black, Color::LightYellow);
-					//Tell the player that they are free and won the game
-					cout << "You have escaped the old prison and you are now free!\n";
-					//Set the text color back to normal
-					SetColor(Color::Black, Color::BrightWhite);
-					//Set the room to None, signifying the end of the game
-					Quit();
-					//return RoomEnum::None;
-				}
+				//Clear the screen
+				system("cls");
+				//Set the text color to yellow
+				SetColor(Color::Black, Color::LightYellow);
+				//Tell the player that they are free and won the game
+				cout << "You have escaped the old prison and you are now free!\n";
+				//Set the text color back to normal
+				SetColor(Color::Black, Color::BrightWhite);
+				//Quit the game
+				Quit();
 			}
-			//If the BACK argument has been entered
-			else if (Arguments[0] == "BACK")
-			{
-				//Go back to the hallway room
-				GoToRoom<HallwayRoom>();
-				//return RoomEnum::Hallway;
-			}
-			//If no valid argument has been passed
+			//If the door is still locked
 			else
 			{
-				//Tell the player that an invalid argument has been passed
-				InvalidCommand("Unrecognized place to go\n");
+				//Tell the player they can't go out
+				cout << "You can't go out. The door is locked\n";
 			}
+			break;
+			//If the player wants to go "BACK"
+		case 1:
+			//Go back to the hallway room
+			GoToRoom<HallwayRoom>();
+			break;
 		}
 	}
 	//If the "CODE" command has been entered
@@ -93,7 +81,7 @@ void LargeDoorRoom::OnCommand(std::string Command, std::vector<std::string> Argu
 					//Tell the player that the door has been unlocked!
 					cout << "The door has now been unlocked! You can now escape!\n";
 					//Set the text back to normal
-					SetColor(Color::Black, Color::LightBlue);
+					SetColor(Color::Black, Color::BrightWhite);
 					//Unlock the door
 					Variables::largeDoorUnlocked = true;
 				}
@@ -139,6 +127,7 @@ void LargeDoorRoom::OnCommand(std::string Command, std::vector<std::string> Argu
 	}
 }
 
+//Gets the name of the room
 std::string LargeDoorRoom::GetName() const
 {
 	return "LargeDoor";

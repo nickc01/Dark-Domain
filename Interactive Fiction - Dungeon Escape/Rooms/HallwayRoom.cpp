@@ -1,86 +1,66 @@
-#include "HallwayRoom.h"
+#include "HallwayRoom.h" //Used to gain access to the room definition for creating and executing rooms
+#include "../gameFunctions.h" //Used to gain access to common game functions
+#include <iostream> //Used to gain access to cout for printing to the console
+#include "CellRoom.h" //Used to gain access to the room definition for creating and executing rooms
+#include "LargeDoorRoom.h" //Used to gain access to the room definition for creating and executing rooms
+#include "HallwayEndRoom.h" //Used to gain access to the room definition for creating and executing rooms
 
-#include "../gameEnums.h"
-#include "../gameFunctions.h"
-#include <iostream>
-#include "CellRoom.h"
-#include "LargeDoorRoom.h"
-#include "OfficeRoom.h"
+using namespace std; //Used to prevent me from having to type "std::cout" everywhere
 
-using namespace std;
-
+//Called when the room starts
 void HallwayRoom::OnStart()
 {
-	//Clear the screen
-	system("cls");
-	//Set the text color to blue
-	SetColor(Color::Black, Color::LightBlue);
+	//If the previous room was the cell room
+	if (GetPreviousRoom()->GetName() != "Cell")
+	{
+		//Clear the screen
+		system("cls");
+	}
 	//Tell the player that they are now in the hallway
 	cout << "You are now in the hallway just outside of your cell. The hallway splits into two directions, left and right.\n\n";
-	//If the player originally came from the cell room
+	//If the previous room was the cell room
 	if (GetPreviousRoom()->GetName() == "Cell")
 	{
 		//The the player how to use the go command
 		cout << "Use the \"GO\" command to pick where you want to go";
 	}
-	//Set the text color back to normal
-	SetColor(Color::Black, Color::BrightWhite);
 }
 
+//Called when the player enters a command
 void HallwayRoom::OnCommand(std::string Command, std::vector<std::string> Arguments)
 {
+	//If the "GO" command was entered
 	if (Command == "GO")
 	{
-		//If no other arguments have been pass along with the command
-		if (Arguments.size() == 0)
+		//Call the go command shortcut and see which room the player wants to go in
+		switch (GoCommandShortcut(Arguments, { {"LEFT","Follow the hallway to the left"},{"RIGHT","Follow the hallway to the right"},{"BACK", "Go back into the cell you came out of"} }))
 		{
-			//Ask the player which way they want to go and present them their options
-			cout << "In which direction do you want to go?\n";
-			cout << "Valid options:\n";
-			cout << "LEFT : Follow the hallway to the left\n";
-			cout << "RIGHT : Follow the hallway to the right\n";
-			cout << "BACK : Go back into the cell you came out of\n";
-		}
-		//If an argument has been passed alongside the command
-		else
-		{
-			//If the LEFT argument has been entered
-			if (Arguments[0] == "LEFT")
-			{
-				//Go to the large door room
-				//return Room::LargeDoor;
-				GoToRoom<LargeDoorRoom>();
-			}
-			//If the RIGHT argument has been entered
-			else if (Arguments[0] == "RIGHT")
-			{
-				//Go to the office room
-				//return Room::Office;
-				GoToRoom<OfficeRoom>();
-			}
-			//If the BACK argument has been entered
-			else if (Arguments[0] == "BACK")
-			{
-				//Go back to the Cell Room
-				GoToRoom<CellRoom>();
-				//return Room::Cell;
-			}
-			//If an unrecognized argument has been entered
-			else
-			{
-				//Tell the player that an unrecognized argument has been entered
-				InvalidCommand("Unrecognized place to go\n");
-			}
+			//If the player wants to go "LEFT"
+		case 0:
+			//Go to the large door room
+			GoToRoom<LargeDoorRoom>();
+			break;
+			//If the player wants to go "RIGHT"
+		case 1:
+			//Go to the hallway end room
+			GoToRoom<HallwayEndRoom>();
+			break;
+			//If the player wants to go "BACK"
+		case 2:
+			//Go back to the cell room
+			GoToRoom<CellRoom>();
+			break;
 		}
 	}
-	//If an invalid command has been entered
+	//If an invalid command was entered
 	else
 	{
-		//Tell the player that an invalid command has been entered
+		//Tell the player an invalid command was entered
 		InvalidCommand();
 	}
 }
 
+//Used to get the name of the room
 std::string HallwayRoom::GetName() const
 {
 	return "Hallway";
