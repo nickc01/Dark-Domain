@@ -1,3 +1,0 @@
-[submodule "lib/termcolor"]
-	path = lib/termcolor
-	url = https://github.com/ikalnytskyi/termcolor.git
